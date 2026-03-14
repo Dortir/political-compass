@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer, Tooltip } from "recharts";
 
 // ============================================================
 // DATA: QUESTIONS
@@ -809,13 +808,6 @@ function ResultsScreen({ answers, onRestart }) {
   const politicalType = getPoliticalType(dimScores, overall);
   const summary = getSummary(dimScores, overall);
   const topParties = matchParties(dimScores);
-
-  const radarData = Object.entries(DIMENSIONS).map(([key, dim]) => ({
-    subject: dim.label,
-    score: dimScores[key],
-    fullMark: 5
-  }));
-
   const pct = overallInfo.position;
 
   return (
@@ -876,30 +868,6 @@ function ResultsScreen({ answers, onRestart }) {
               {overallInfo.label} • {Number.isInteger(overall) ? overall : overall.toFixed(1)}/5
             </div>
           </div>
-        </div>
-
-        {/* Radar Chart */}
-        <div style={{
-          background: "#151828", borderRadius: 20, padding: 24, marginBottom: 20,
-          border: "1px solid rgba(255,255,255,0.07)"
-        }}>
-          <h2 style={{ color: "#e8f0f8", fontSize: 16, fontWeight: 700, margin: "0 0 16px" }}>
-            מפת העמדות שלך
-          </h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <RadarChart data={radarData} margin={{ top: 20, right: 50, bottom: 20, left: 50 }}>
-              <PolarGrid stroke="#1e2a3a" />
-              <PolarAngleAxis dataKey="subject" tick={{ fill: "#7090aa", fontSize: 10, fontFamily: "'Heebo', sans-serif" }} />
-              <Radar name="עמדותיך" dataKey="score" stroke="#4f8ef7" fill="#4f8ef7" fillOpacity={0.25} strokeWidth={2} />
-              <Tooltip
-                formatter={(v) => [v.toFixed(1), "ציון"]}
-                contentStyle={{ background: "#1e2a3a", border: "1px solid #334", borderRadius: 8, direction: "rtl" }}
-              />
-            </RadarChart>
-          </ResponsiveContainer>
-          <p style={{ color: "#506070", fontSize: 11, textAlign: "center", margin: "8px 0 0" }}>
-            1 = שמאל | 5 = ימין
-          </p>
         </div>
 
         {/* Dimension breakdown */}
