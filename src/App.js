@@ -471,7 +471,10 @@ function calculateScores(answers) {
   QUESTIONS.forEach(q => {
     const answer = answers[q.id];
     if (answer === undefined) return;
-    const normalized = q.direction === 1 ? answer : (6 - answer);
+    // answer: 1=agree, 5=disagree
+    // direction 1 (right-leaning question): agree(1) = right = high score → normalize to 6-answer
+    // direction -1 (left-leaning question): agree(1) = left = low score → normalize to answer
+    const normalized = q.direction === 1 ? (6 - answer) : answer;
     dimensionScores[q.dimension].push(normalized);
   });
 
@@ -571,12 +574,12 @@ function matchParties(userScores) {
 const ScaleBar = ({ score, leftLabel, rightLabel }) => {
   const pct = ((score - 1) / 4) * 100;
   return (
-    <div style={{ direction: "rtl" }}>
+    <div>
       <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#888", marginBottom: 4 }}>
         <span>{leftLabel}</span>
         <span>{rightLabel}</span>
       </div>
-      <div style={{ height: 6, background: "linear-gradient(to left, #f46b4f, #aaa, #4f8ef7)", borderRadius: 3, position: "relative" }}>
+      <div style={{ height: 6, background: "linear-gradient(to right, #4f8ef7, #aaa, #f46b4f)", borderRadius: 3, position: "relative" }}>
         <div style={{
           position: "absolute", top: -5, width: 16, height: 16, borderRadius: "50%",
           background: "#fff", border: "2px solid #1a1a2e", boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
@@ -848,7 +851,7 @@ function ResultsScreen({ answers, onRestart }) {
               <span>מרכז</span>
               <span>ימין</span>
             </div>
-            <div style={{ height: 12, background: "linear-gradient(to left, #f46b4f, #888, #4f8ef7)", borderRadius: 6, position: "relative" }}>
+            <div style={{ height: 12, background: "linear-gradient(to right, #4f8ef7, #888, #f46b4f)", borderRadius: 6, position: "relative" }}>
               <div style={{
                 position: "absolute", top: -4, width: 20, height: 20, borderRadius: "50%",
                 background: "#fff", border: `3px solid ${overallInfo.color}`,
@@ -857,7 +860,7 @@ function ResultsScreen({ answers, onRestart }) {
               }} />
             </div>
             <div style={{ textAlign: "center", marginTop: 16, color: overallInfo.color, fontSize: 18, fontWeight: 700 }}>
-              {overallInfo.label} • {overall.toFixed(1)}/5
+              {overallInfo.label} • {Number.isInteger(overall) ? overall : overall.toFixed(1)}/5
             </div>
           </div>
         </div>
@@ -902,7 +905,7 @@ function ResultsScreen({ answers, onRestart }) {
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                   <span style={{ color: "#e8f0f8", fontWeight: 700 }}>{dim.label}</span>
                   <span style={{ color: "#4f8ef7", fontWeight: 700, fontSize: 14 }}>
-                    {score.toFixed(1)}/5
+                    {Number.isInteger(score) ? score : score.toFixed(1)}/5
                   </span>
                 </div>
                 <ScaleBar score={score} leftLabel={dim.leftLabel} rightLabel={dim.rightLabel} />
