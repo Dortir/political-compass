@@ -654,6 +654,7 @@ function QuestionScreen({ answers, onAnswer, onBack, onFinish }) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selected, setSelected] = useState(null);
   const [animating, setAnimating] = useState(false);
+  const [showExplanation, setShowExplanation] = useState(false);
 
   const q = QUESTIONS[currentIdx];
   const total = QUESTIONS.length;
@@ -661,6 +662,7 @@ function QuestionScreen({ answers, onAnswer, onBack, onFinish }) {
 
   useEffect(() => {
     setSelected(answers[q.id] || null);
+    setShowExplanation(false);
   }, [currentIdx]);
 
   const goNext = () => {
@@ -726,20 +728,31 @@ function QuestionScreen({ answers, onAnswer, onBack, onFinish }) {
               {q.text}
             </p>
 
-            <div style={{
-              marginTop: 16, padding: 14, background: "rgba(255,255,255,0.03)",
-              borderRadius: 12, borderRight: "3px solid #4f8ef7"
+            <button onClick={() => setShowExplanation(!showExplanation)} style={{
+              marginTop: 12, padding: "8px 14px", borderRadius: 10, border: "1px solid rgba(79,142,247,0.3)",
+              background: "rgba(79,142,247,0.08)", color: "#4f8ef7", fontSize: 13, cursor: "pointer",
+              fontFamily: "'Heebo', sans-serif", display: "flex", alignItems: "center", gap: 6
             }}>
-              <p style={{ color: "#7090aa", fontSize: 13, lineHeight: 1.5, margin: "0 0 8px", fontWeight: 600 }}>
-                הקשר: {q.explanation}
-              </p>
-              <p style={{ color: "#507090", fontSize: 12, lineHeight: 1.5, margin: 0 }}>
-                ✅ <span style={{ color: "#4fa"}}>{q.pro}</span>
-              </p>
-              <p style={{ color: "#507090", fontSize: 12, lineHeight: 1.5, margin: "4px 0 0" }}>
-                ⚠️ <span style={{ color: "#fa9"}}>{q.con}</span>
-              </p>
-            </div>
+              <span>{showExplanation ? "▲" : "▼"}</span>
+              {showExplanation ? "הסתר הסבר" : "הצג הסבר והקשר"}
+            </button>
+
+            {showExplanation && (
+              <div style={{
+                marginTop: 10, padding: 14, background: "rgba(255,255,255,0.03)",
+                borderRadius: 12, borderRight: "3px solid #4f8ef7"
+              }}>
+                <p style={{ color: "#7090aa", fontSize: 13, lineHeight: 1.5, margin: "0 0 8px", fontWeight: 600 }}>
+                  הקשר: {q.explanation}
+                </p>
+                <p style={{ color: "#507090", fontSize: 12, lineHeight: 1.5, margin: 0 }}>
+                  ✅ <span style={{ color: "#4fa"}}>{q.pro}</span>
+                </p>
+                <p style={{ color: "#507090", fontSize: 12, lineHeight: 1.5, margin: "4px 0 0" }}>
+                  ⚠️ <span style={{ color: "#fa9"}}>{q.con}</span>
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Answer buttons */}
