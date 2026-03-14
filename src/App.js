@@ -743,15 +743,15 @@ function QuestionScreen({ answers, onAnswer, onBack, onFinish }) {
           </div>
 
           {/* Answer buttons */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 7, marginBottom: 16 }}>
             {labels.map((label, i) => {
               const val = i + 1;
               const isSelected = selected === val;
               return (
                 <button key={val} onClick={() => setSelected(val)} style={{
-                  padding: "14px 20px", borderRadius: 12, border: `2px solid ${isSelected ? colors[i] : "rgba(255,255,255,0.08)"}`,
+                  padding: "10px 16px", borderRadius: 12, border: `2px solid ${isSelected ? colors[i] : "rgba(255,255,255,0.08)"}`,
                   background: isSelected ? `${colors[i]}22` : "rgba(255,255,255,0.03)",
-                  color: isSelected ? colors[i] : "#a0b8cc", fontSize: 15, cursor: "pointer",
+                  color: isSelected ? colors[i] : "#a0b8cc", fontSize: 14, cursor: "pointer",
                   fontFamily: "'Heebo', sans-serif", textAlign: "right", fontWeight: isSelected ? 700 : 400,
                   transition: "all 0.15s", display: "flex", alignItems: "center", gap: 12
                 }}>
