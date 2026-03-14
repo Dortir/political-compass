@@ -574,10 +574,10 @@ function matchParties(userScores) {
 const ScaleBar = ({ score, leftLabel, rightLabel }) => {
   const pct = ((score - 1) / 4) * 100;
   return (
-    <div>
+    <div style={{ direction: "ltr" }}>
       <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#888", marginBottom: 4 }}>
-        <span>{leftLabel}</span>
-        <span>{rightLabel}</span>
+        <span style={{ direction: "rtl" }}>{leftLabel}</span>
+        <span style={{ direction: "rtl" }}>{rightLabel}</span>
       </div>
       <div style={{ height: 6, background: "linear-gradient(to right, #4f8ef7, #aaa, #f46b4f)", borderRadius: 3, position: "relative" }}>
         <div style={{
@@ -743,15 +743,15 @@ function QuestionScreen({ answers, onAnswer, onBack, onFinish }) {
           </div>
 
           {/* Answer buttons */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 7, marginBottom: 16 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
             {labels.map((label, i) => {
               const val = i + 1;
               const isSelected = selected === val;
               return (
                 <button key={val} onClick={() => setSelected(val)} style={{
-                  padding: "10px 16px", borderRadius: 12, border: `2px solid ${isSelected ? colors[i] : "rgba(255,255,255,0.08)"}`,
+                  padding: "14px 20px", borderRadius: 12, border: `2px solid ${isSelected ? colors[i] : "rgba(255,255,255,0.08)"}`,
                   background: isSelected ? `${colors[i]}22` : "rgba(255,255,255,0.03)",
-                  color: isSelected ? colors[i] : "#a0b8cc", fontSize: 14, cursor: "pointer",
+                  color: isSelected ? colors[i] : "#a0b8cc", fontSize: 15, cursor: "pointer",
                   fontFamily: "'Heebo', sans-serif", textAlign: "right", fontWeight: isSelected ? 700 : 400,
                   transition: "all 0.15s", display: "flex", alignItems: "center", gap: 12
                 }}>
@@ -845,7 +845,7 @@ function ResultsScreen({ answers, onRestart }) {
           <h2 style={{ color: "#e8f0f8", fontSize: 16, fontWeight: 700, margin: "0 0 20px" }}>
             מיקומך על הסקאלה הפוליטית
           </h2>
-          <div style={{ marginBottom: 12 }}>
+          <div style={{ marginBottom: 12, direction: "ltr" }}>
             <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#607080", marginBottom: 8 }}>
               <span>שמאל</span>
               <span>מרכז</span>
@@ -859,7 +859,7 @@ function ResultsScreen({ answers, onRestart }) {
                 left: `${pct}%`, transform: "translateX(-50%)", transition: "left 1s ease"
               }} />
             </div>
-            <div style={{ textAlign: "center", marginTop: 16, color: overallInfo.color, fontSize: 18, fontWeight: 700 }}>
+            <div style={{ textAlign: "center", marginTop: 16, color: overallInfo.color, fontSize: 18, fontWeight: 700, direction: "rtl" }}>
               {overallInfo.label} • {Number.isInteger(overall) ? overall : overall.toFixed(1)}/5
             </div>
           </div>
@@ -873,10 +873,10 @@ function ResultsScreen({ answers, onRestart }) {
           <h2 style={{ color: "#e8f0f8", fontSize: 16, fontWeight: 700, margin: "0 0 16px" }}>
             מפת העמדות שלך
           </h2>
-          <ResponsiveContainer width="100%" height={260}>
-            <RadarChart data={radarData} margin={{ top: 10, right: 30, bottom: 10, left: 30 }}>
+          <ResponsiveContainer width="100%" height={300}>
+            <RadarChart data={radarData} margin={{ top: 20, right: 50, bottom: 20, left: 50 }}>
               <PolarGrid stroke="#1e2a3a" />
-              <PolarAngleAxis dataKey="subject" tick={{ fill: "#7090aa", fontSize: 11, fontFamily: "'Heebo', sans-serif" }} />
+              <PolarAngleAxis dataKey="subject" tick={{ fill: "#7090aa", fontSize: 10, fontFamily: "'Heebo', sans-serif" }} />
               <Radar name="עמדותיך" dataKey="score" stroke="#4f8ef7" fill="#4f8ef7" fillOpacity={0.25} strokeWidth={2} />
               <Tooltip
                 formatter={(v) => [v.toFixed(1), "ציון"]}
